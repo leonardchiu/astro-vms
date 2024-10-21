@@ -1,0 +1,63 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Profile">
+    <div class="min-h-screen bg-white flex items-center justify-center">
+        <div class="max-w-4xl w-full mx-auto p-6">
+            <div class="overflow-hidden bg-white shadow sm:rounded-lg">
+                <div class="px-4 py-6 sm:px-6">
+                    <h3 class="text-base font-semibold leading-7 text-gray-900">User Profile</h3>
+                    <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Personal details and application.</p>
+                </div>
+                <div class="border-t border-gray-100">
+                    <dl class="divide-y divide-gray-100">
+                        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-900">Full name</dt>
+                            <dd id="fullName" class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"></dd>
+                        </div>
+                        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-900">Vehicle Number</dt>
+                            <dd id="vehicleNumber" class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"></dd>
+                        </div>
+                        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-900">Email address</dt>
+                            <dd id="email" class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"></dd>
+                        </div>
+                        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-900">Role</dt>
+                            <dd id="role" class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"></dd>
+                        </div>
+                        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-900">Make and Model</dt>
+                            <dd id="makeAndModel" class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"></dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</Layout>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const userProfileString = sessionStorage.getItem('userProfile');
+        if (userProfileString) {
+            const userProfile = JSON.parse(userProfileString);
+            console.log('User Profile:', userProfile);
+
+            // Populate the fields with user data
+            document.getElementById('fullName').textContent = userProfile.fullName || 'N/A';
+            document.getElementById('vehicleNumber').textContent = userProfile.vehicles?.[0]?.registration || 'N/A';
+            document.getElementById('email').textContent = userProfile.email || 'N/A';
+            document.getElementById('role').textContent = userProfile.role || 'N/A';
+            document.getElementById('makeAndModel').textContent = 
+                userProfile.vehicles?.[0] ? 
+                `${userProfile.vehicles[0].make} ${userProfile.vehicles[0].model}` : 
+                'N/A';
+        } else {
+            console.log('User Profile not found in session storage');
+            // Optionally, redirect to login page or show an error message
+        }
+    });
+</script>

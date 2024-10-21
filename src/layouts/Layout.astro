@@ -1,0 +1,258 @@
+---
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+
+// Check for the presence of a token in the session
+const hasToken = Astro.cookies.has('authToken');
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body class="h-full bg-white">
+		<header class="bg-white">
+			<nav class="mx-auto flex max-w-7xl items-center justify-between gap-x-6 p-6 lg:px-8" aria-label="Global">
+			  <div class="flex lg:flex-1">
+				<a href="http://localhost:4321" class="-m-1.5 p-1.5">
+				  <span class="sr-only">Your Company</span>
+				  <img class="h-8 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="">
+				</a>
+			  </div>
+			  <div class="hidden lg:flex lg:gap-x-12">
+				<a href="#" class="text-sm font-semibold leading-6 text-gray-900">Product</a>
+				<a href="#" class="text-sm font-semibold leading-6 text-gray-900">Features</a>
+				<a href="#" class="text-sm font-semibold leading-6 text-gray-900">Marketplace</a>
+				<a href="#" class="text-sm font-semibold leading-6 text-gray-900">Company</a>
+			  </div>
+			  <div id="authButtons" class="flex flex-1 items-center justify-end gap-x-6">
+				<a href="/login" id="loginButton" class="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900">Log in</a>
+				<a href="#" id="signupButton" class="hidden rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign up</a>
+				<button id="logoutButton" class="hidden rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">Log out</button>
+			  </div>
+			  <div class="flex lg:hidden">
+				<button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+				  <span class="sr-only">Open main menu</span>
+				  <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+				  </svg>
+				</button>
+			  </div>
+			</nav>
+			<!-- Mobile menu, show/hide based on menu open state. -->
+			<div class="lg:hidden" role="dialog" aria-modal="true">
+			  <!-- Background backdrop, show/hide based on slide-over state. -->
+			  <div class="fixed inset-0 z-10"></div>
+			  <div class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+				<div class="flex items-center gap-x-6">
+				  <a href="#" class="-m-1.5 p-1.5">
+					<span class="sr-only">Your Company</span>
+					<img class="h-8 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="">
+				  </a>
+				  <a href="#" class="ml-auto rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign up</a>
+				  <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
+					<span class="sr-only">Close menu</span>
+					<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+					  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+					</svg>
+				  </button>
+				</div>
+				<div class="mt-6 flow-root">
+				  <div class="-my-6 divide-y divide-gray-500/10">
+					<div class="space-y-2 py-6">
+					  <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Product</a>
+					  <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Features</a>
+					  <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Marketplace</a>
+					  <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Company</a>
+					</div>
+					<div class="py-6">
+					  <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Log in</a>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		  </header>
+		  
+		<slot />
+
+		<footer class="bg-white" aria-labelledby="footer-heading">
+			<h2 id="footer-heading" class="sr-only">Footer</h2>
+			<div class="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8 lg:py-32">
+			  <div class="xl:grid xl:grid-cols-3 xl:gap-8">
+				<img class="h-7" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="Company name">
+				<div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
+				  <div class="md:grid md:grid-cols-2 md:gap-8">
+					<div>
+					  <h3 class="text-sm font-semibold leading-6 text-gray-900">Solutions</h3>
+					  <ul role="list" class="mt-6 space-y-4">
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Marketing</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Analytics</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Commerce</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Insights</a>
+						</li>
+					  </ul>
+					</div>
+					<div class="mt-10 md:mt-0">
+					  <h3 class="text-sm font-semibold leading-6 text-gray-900">Support</h3>
+					  <ul role="list" class="mt-6 space-y-4">
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Pricing</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Documentation</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Guides</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">API Status</a>
+						</li>
+					  </ul>
+					</div>
+				  </div>
+				  <div class="md:grid md:grid-cols-2 md:gap-8">
+					<div>
+					  <h3 class="text-sm font-semibold leading-6 text-gray-900">Company</h3>
+					  <ul role="list" class="mt-6 space-y-4">
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">About</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Blog</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Jobs</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Press</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Partners</a>
+						</li>
+					  </ul>
+					</div>
+					<div class="mt-10 md:mt-0">
+					  <h3 class="text-sm font-semibold leading-6 text-gray-900">Legal</h3>
+					  <ul role="list" class="mt-6 space-y-4">
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Claim</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Privacy</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Terms</a>
+						</li>
+					  </ul>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		  </footer>
+		  
+	</body>
+</html>
+
+<script>
+	function updateAuthButtons() {
+		const authToken = sessionStorage.getItem('authToken');
+		const authButtonsContainer = document.getElementById('authButtons');
+		const signupButton = document.getElementById('signupButton');
+		const logoutButton = document.getElementById('logoutButton');
+
+		// Remove existing login button if it exists
+		const existingLoginButton = document.getElementById('loginButton');
+		if (existingLoginButton) {
+			existingLoginButton.remove();
+		}
+
+		if (authToken) {
+			signupButton.classList.add('hidden');
+			logoutButton.classList.remove('hidden');
+		} else {
+			// Create and add login button
+			const loginButton = document.createElement('a');
+			loginButton.id = 'loginButton';
+			loginButton.href = '/login';
+			loginButton.className = 'hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900';
+			loginButton.textContent = 'Log in';
+			authButtonsContainer.insertBefore(loginButton, signupButton);
+
+			signupButton.classList.remove('hidden');
+			logoutButton.classList.add('hidden');
+		}
+	}
+
+	// Run on initial load
+	document.addEventListener('DOMContentLoaded', () => {
+		updateAuthButtons();
+
+		const logoutButton = document.getElementById('logoutButton');
+		if (logoutButton) {
+			logoutButton.addEventListener('click', () => {
+				sessionStorage.removeItem('authToken');
+				sessionStorage.removeItem('userProfile');
+				document.cookie = 'authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+				updateAuthButtons();
+				window.location.href = '/';
+			});
+		}
+	});
+
+	// Listen for changes in sessionStorage
+	window.addEventListener('storage', (event) => {
+		if (event.key === 'authToken') {
+			updateAuthButtons();
+		}
+	});
+
+	// Run updateAuthButtons immediately
+	updateAuthButtons();
+</script>
+
+<style is:global>
+	:root {
+		--accent: 136, 58, 234;
+		--accent-light: 224, 204, 250;
+		--accent-dark: 49, 10, 101;
+		--accent-gradient: linear-gradient(
+			45deg,
+			rgb(var(--accent)),
+			rgb(var(--accent-light)) 30%,
+			white 60%
+		);
+	}
+	html {
+		font-family: system-ui, sans-serif;
+		background: #13151a;
+	}
+	code {
+		font-family:
+			Menlo,
+			Monaco,
+			Lucida Console,
+			Liberation Mono,
+			DejaVu Sans Mono,
+			Bitstream Vera Sans Mono,
+			Courier New,
+			monospace;
+	}
+</style>
