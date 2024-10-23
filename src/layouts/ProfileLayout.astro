@@ -1,0 +1,196 @@
+---
+import ProfileHeader from '../components/ProfileHeader.jsx';
+import Header from '../components/Header.jsx';
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body class="h-full bg-white">
+		<ProfileHeader client:load />
+		<slot />
+
+		<footer class="bg-white" aria-labelledby="footer-heading">
+			<h2 id="footer-heading" class="sr-only">Footer</h2>
+			<div class="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8 lg:py-32">
+			  <div class="xl:grid xl:grid-cols-3 xl:gap-8">
+				<img class="h-7" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="Company name">
+				<div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
+				  <div class="md:grid md:grid-cols-2 md:gap-8">
+					<div>
+					  <h3 class="text-sm font-semibold leading-6 text-gray-900">Solutions</h3>
+					  <ul role="list" class="mt-6 space-y-4">
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Marketing</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Analytics</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Commerce</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Insights</a>
+						</li>
+					  </ul>
+					</div>
+					<div class="mt-10 md:mt-0">
+					  <h3 class="text-sm font-semibold leading-6 text-gray-900">Support</h3>
+					  <ul role="list" class="mt-6 space-y-4">
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Pricing</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Documentation</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Guides</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">API Status</a>
+						</li>
+					  </ul>
+					</div>
+				  </div>
+				  <div class="md:grid md:grid-cols-2 md:gap-8">
+					<div>
+					  <h3 class="text-sm font-semibold leading-6 text-gray-900">Company</h3>
+					  <ul role="list" class="mt-6 space-y-4">
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">About</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Blog</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Jobs</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Press</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Partners</a>
+						</li>
+					  </ul>
+					</div>
+					<div class="mt-10 md:mt-0">
+					  <h3 class="text-sm font-semibold leading-6 text-gray-900">Legal</h3>
+					  <ul role="list" class="mt-6 space-y-4">
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Claim</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Privacy</a>
+						</li>
+						<li>
+						  <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Terms</a>
+						</li>
+					  </ul>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		  </footer>
+		  
+	</body>
+</html>
+
+<script>
+	function updateAuthButtons() {
+		const authToken = sessionStorage.getItem('authToken');
+		const authButtonsContainer = document.getElementById('authButtons');
+		const signupButton = document.getElementById('signupButton');
+		const logoutButton = document.getElementById('logoutButton');
+
+		// Remove existing login button if it exists
+		const existingLoginButton = document.getElementById('loginButton');
+		if (existingLoginButton) {
+			existingLoginButton.remove();
+		}
+
+		if (authToken) {
+			signupButton.classList.add('hidden');
+			logoutButton.classList.remove('hidden');
+		} else {
+			// Create and add login button
+			const loginButton = document.createElement('a');
+			loginButton.id = 'loginButton';
+			loginButton.href = '/login';
+			loginButton.className = 'hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900';
+			loginButton.textContent = 'Log in';
+			authButtonsContainer.insertBefore(loginButton, signupButton);
+
+			signupButton.classList.remove('hidden');
+			logoutButton.classList.add('hidden');
+		}
+	}
+
+	// Run on initial load
+	document.addEventListener('DOMContentLoaded', () => {
+		updateAuthButtons();
+
+		const logoutButton = document.getElementById('logoutButton');
+		if (logoutButton) {
+			logoutButton.addEventListener('click', () => {
+				sessionStorage.removeItem('authToken');
+				sessionStorage.removeItem('userProfile');
+				document.cookie = 'authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+				updateAuthButtons();
+				window.location.href = '/';
+			});
+		}
+	});
+
+	// Listen for changes in sessionStorage
+	window.addEventListener('storage', (event) => {
+		if (event.key === 'authToken') {
+			updateAuthButtons();
+		}
+	});
+
+	// Run updateAuthButtons immediately
+	updateAuthButtons();
+</script>
+
+<style is:global>
+	:root {
+		--accent: 136, 58, 234;
+		--accent-light: 224, 204, 250;
+		--accent-dark: 49, 10, 101;
+		--accent-gradient: linear-gradient(
+			45deg,
+			rgb(var(--accent)),
+			rgb(var(--accent-light)) 30%,
+			white 60%
+		);
+	}
+	html {
+		font-family: system-ui, sans-serif;
+		background: #13151a;
+	}
+	code {
+		font-family:
+			Menlo,
+			Monaco,
+			Lucida Console,
+			Liberation Mono,
+			DejaVu Sans Mono,
+			Bitstream Vera Sans Mono,
+			Courier New,
+			monospace;
+	}
+</style>
