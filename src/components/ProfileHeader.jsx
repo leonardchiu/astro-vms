@@ -9,15 +9,15 @@ import {
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
-import { signOut } from "auth-astro/src/client";
+// import { signOut } from "auth-astro/client";
 
 export default function Example() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleSignOut = async () => {
-    await signOut();
-    window.location.href = "/";
-  };
+  // const handleSignOut = async () => {
+  //   await signOut();
+  //   window.location.href = "/";
+  // };
 
   return (
     <Disclosure as="nav" className="bg-white shadow">
